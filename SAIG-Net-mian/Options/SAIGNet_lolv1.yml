@@ -1,0 +1,130 @@
+# general settings
+name: SAIGNet_lolv1
+model_type: ImageCleanModel
+use_amp: False
+scale: 1
+num_gpu: 1  # set num_gpu: 0 for cpu mode
+manual_seed: 100
+
+# dataset and data loader settings
+datasets:
+  train:
+    name: TrainSet
+    type: Dataset_PairedImage
+    dataroot_gt: ./datasets/lolv1/our485/high
+    dataroot_lq: ./datasets/lolv1/our485/low
+    geometric_augs: true
+
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+    # data loader
+    use_shuffle: true
+    num_worker_per_gpu: 8
+    batch_size_per_gpu: 8
+
+    mini_batch_sizes: [8]   
+    iters: [100000]
+    gt_size: 256  
+    gt_sizes: [256]
+
+    dataset_enlarge_ratio: 1
+    prefetch_mode: ~
+
+  val:
+    name: ValSet
+    type: Dataset_PairedImage
+    dataroot_gt: ./datasets/lolv1/eval15/high
+    dataroot_lq: ./datasets/lolv1/eval15/low
+    io_backend:
+      type: disk
+    val_batch_size: 1
+    val_num_worker: 8
+
+# network structures
+network_g:
+  type: SAIGNet
+  width: 32
+  train_patch: 256
+  eps: !!float 1e-1
+
+# path
+path:
+  root: ./model_output
+  pretrain_network_g: 
+  strict_load_g: true
+  resume_state: 
+
+# training settings
+train:
+  total_iter: 100000
+  warmup_iter: -1 # no warm up
+  use_grad_clip: False
+
+  scheduler:
+    type: CosineAnnealingRestartCyclicLR
+    periods: [30000,70000]       
+    restart_weights: [1,1.5]
+    eta_mins: [0.0003,0.000001]   
+  
+
+  mixing_augs:
+    mixup: false
+    mixup_beta: 1.2
+    use_identity: true
+
+  optim_g:
+    type: Adam
+    lr: !!float 2e-4
+    betas: [0.9, 0.999]
+  
+  # losses
+  pixel_opt:
+    - type: L1Loss
+      loss_weight: 1.0
+      reduction: mean
+    - type: SSIMLoss
+      loss_weight: 0.5
+      reduction: mean
+
+    - type: PerceptualLoss
+      layer_weights:
+        conv5_4: 1.0
+      vgg_type: vgg19
+      use_input_norm: true
+      range_norm: false
+      perceptual_weight: 0.02
+      style_weight: 0.0
+      criterion: l1
+
+
+# validation settings
+val:
+  window_size: 4
+  val_freq: !!float 0.5e3
+  save_img: false
+  rgb2bgr: true
+  use_image: false
+  max_minibatch: 8
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false
+
+# logging settings
+logger:
+  print_freq: 50
+  save_checkpoint_freq: !!float 1e3
+  use_tb_logger: False
+  logger_path: ./model_output
+  wandb:
+    project: low_light
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500

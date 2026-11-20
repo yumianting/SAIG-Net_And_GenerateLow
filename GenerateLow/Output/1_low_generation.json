@@ -1,0 +1,148 @@
+{
+  "config": {
+    "gamma_range": [
+      1.55,
+      2.15
+    ],
+    "brightness_range": [
+      0.38,
+      0.7
+    ],
+    "illumination_base_range": [
+      0.38,
+      0.62
+    ],
+    "illumination_spot_count": [
+      1,
+      3
+    ],
+    "illumination_spot_gain_range": [
+      0.1,
+      0.22
+    ],
+    "illumination_lamp_prob": 0.8,
+    "illumination_lamp_gain_range": [
+      0.14,
+      0.3
+    ],
+    "illumination_sigma_x_range": [
+      0.12,
+      0.3
+    ],
+    "illumination_sigma_y_range": [
+      0.12,
+      0.34
+    ],
+    "illumination_blur_sigma_range": [
+      9.0,
+      18.0
+    ],
+    "illumination_clip_range": [
+      0.16,
+      0.82
+    ],
+    "vignette_strength_range": [
+      0.24,
+      0.46
+    ],
+    "gaussian_luma_noise_std_range": [
+      0.0025,
+      0.01
+    ],
+    "gaussian_chroma_noise_std_range": [
+      0.00015,
+      0.0008
+    ],
+    "gaussian_dark_scale_range": [
+      0.6,
+      1.4
+    ],
+    "poisson_levels_range": [
+      36.0,
+      68.0
+    ],
+    "poisson_dark_scale_range": [
+      0.35,
+      1.0
+    ],
+    "noise_darkness_gamma_range": [
+      1.2,
+      1.8
+    ],
+    "red_speckle_max_excess": 0.05,
+    "color_profiles": {
+      "cold": [
+        [
+          1.0,
+          1.08
+        ],
+        [
+          0.95,
+          1.02
+        ],
+        [
+          0.86,
+          0.96
+        ]
+      ],
+      "greenish": [
+        [
+          0.9,
+          0.99
+        ],
+        [
+          1.01,
+          1.09
+        ],
+        [
+          0.87,
+          0.96
+        ]
+      ],
+      "yellow_green": [
+        [
+          0.84,
+          0.94
+        ],
+        [
+          1.0,
+          1.08
+        ],
+        [
+          0.94,
+          1.03
+        ]
+      ]
+    },
+    "blur_prob": 0.25,
+    "blur_kernel_choices": [
+      3,
+      5
+    ],
+    "blur_sigma_range": [
+      0.4,
+      1.1
+    ],
+    "jpeg_quality": 95
+  },
+  "seed": 20260430,
+  "seed_mode": "stream",
+  "size_multiple": 16,
+  "images": [
+    {
+      "source": "/home/mian/mutil_experi/GenerateLow/Input/1.png",
+      "output": "/home/mian/mutil_experi/GenerateLow/Output/1_low.png",
+      "seed": 20260430,
+      "original_size_wh": [
+        1280,
+        640
+      ],
+      "crop_box_ltrb": [
+        0,
+        0,
+        1280,
+        640
+      ]
+    }
+  ]
+}
