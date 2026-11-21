@@ -85,7 +85,7 @@ train:
       loss_weight: 1.0
       reduction: mean
     - type: SSIMLoss
-      loss_weight: 0.5
+      loss_weight: 0.2
       reduction: mean
 
     - type: PerceptualLoss
@@ -94,7 +94,7 @@ train:
       vgg_type: vgg19
       use_input_norm: true
       range_norm: false
-      perceptual_weight: 0.02
+      perceptual_weight: 0.01
       style_weight: 0.0
       criterion: l1
 
