@@ -88,7 +88,7 @@ train:
       loss_weight: 1.0
       reduction: mean
     - type: SSIMLoss
-      loss_weight: 0.1
+      loss_weight: 0.2
       reduction: mean
     - type: PerceptualLoss
       layer_weights:
