@@ -189,14 +189,13 @@ def main():
                     f"iter: {resume_state['iter']}.")
         start_epoch = resume_state['epoch']
         current_iter = resume_state['iter']
+        # Keep this field for compatibility with existing training states.
         best_metric = resume_state['best_metric']
-        best_psnr = best_metric['psnr']
-        best_iter = best_metric['iter']
-        logger.info(f'best psnr: {best_psnr} from iteration {best_iter}')
     else:
         model = create_model(opt)
         start_epoch = 0
         current_iter = 0
+        # Periodic checkpoints still require this legacy state field.
         best_metric = {'iter': 0}
         for k, v in opt['val']['metrics'].items():
             best_metric[k] = 0
@@ -242,17 +241,17 @@ def main():
 
     epoch = start_epoch
 
-    while current_iter <= total_iters:
+    while current_iter < total_iters:
         train_sampler.set_epoch(epoch)
         prefetcher.reset()
         train_data = prefetcher.next()
         
         while train_data is not None:
+            if current_iter >= total_iters:
+                break
             data_time = time.time() - data_time
 
             current_iter += 1
-            if current_iter > total_iters:
-                break
             # update learning rate
             model.update_learning_rate(
                 current_iter, warmup_iter=opt['train'].get('warmup_iter', -1))
@@ -307,32 +306,6 @@ def main():
                 logger.info('Saving models and training states.')
                 model.save(epoch, current_iter, best_metric=best_metric)
 
-            # validation
-            if opt.get('val') is not None and (current_iter %
-                                               opt['val']['val_freq'] == 0):
-                rgb2bgr = opt['val'].get('rgb2bgr', True)
-                # wheather use uint8 image to compute metrics
-                use_image = opt['val'].get('use_image', True)
-                current_metric = model.validation(val_loader, current_iter, tb_logger,
-                                                  opt['val']['save_img'], rgb2bgr, use_image)
-                # log cur metric to csv file
-                logger_metric = get_root_logger(logger_name='metric')
-                metric_str = f'{current_iter},{current_metric}'
-                logger_metric.info(metric_str)
-
-                # log best metric
-                if best_metric['psnr'] < current_metric:
-                    best_metric['psnr'] = current_metric
-                    # save best model
-                    best_metric['iter'] = current_iter
-                    model.save_best(best_metric)
-                if tb_logger:
-                    tb_logger.add_scalar(  # best iter
-                        f'metrics/best_iter', best_metric['iter'], current_iter)
-                    for k, v in opt['val']['metrics'].items():  # best_psnr
-                        tb_logger.add_scalar(
-                            f'metrics/best_{k}', best_metric[k], current_iter)
-
             data_time = time.time()
             iter_time = time.time()
             train_data = prefetcher.next()
@@ -347,8 +320,11 @@ def main():
     logger.info('Save the latest model.')
     model.save(epoch=-1, current_iter=-1)  # -1 stands for the latest
     if opt.get('val') is not None:
-        model.validation(val_loader, current_iter, tb_logger,
-                         opt['val']['save_img'])
+        rgb2bgr = opt['val'].get('rgb2bgr', True)
+        use_image = opt['val'].get('use_image', True)
+        current_metric = model.validation(val_loader, current_iter, tb_logger,
+                                          opt['val']['save_img'], rgb2bgr, use_image)
+        get_root_logger(logger_name='metric').info(f'{current_iter},{current_metric}')
     if tb_logger:
         tb_logger.close()
 
