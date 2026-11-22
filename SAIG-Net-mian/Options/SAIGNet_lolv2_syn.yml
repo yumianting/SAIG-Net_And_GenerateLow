@@ -93,7 +93,6 @@ train:
     - type: PerceptualLoss
       layer_weights:
         conv5_4: 1.0
-      vgg_type: vgg19
       use_input_norm: true
       range_norm: false
       perceptual_weight: 0.01
