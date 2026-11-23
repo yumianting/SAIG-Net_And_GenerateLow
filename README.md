@@ -37,7 +37,7 @@ Enter the SAIG-Net directory and enhance the generated image with the included M
 
 ```sh
 cd SAIG-Net-mian
-python visual.py --opt Options/SAIGNet_melol_low_high.yml --weights model_output/MineLOL/psnr_25.94_56000.pth --input ../GenerateLow/Output/demo_low.png --save_dir results/quickstart --device cpu --save_result
+python visual.py --opt Options/SAIGNet_melol_low_high.yml --weights model_output/MineLOL/psnr_25.94.pth --input ../GenerateLow/Output/demo_low.png --save_dir results/quickstart --device cpu --save_result
 ```
 
 The enhanced image is saved as `results/quickstart/demo_low_result.png` alongside the SAI2E feature heatmaps. Use `--device cuda` with a CUDA-enabled PyTorch installation. The `--input` option accepts either an image or a directory of images.
