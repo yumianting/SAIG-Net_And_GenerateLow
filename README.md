@@ -76,7 +76,7 @@ Training writes checkpoints to `model_output/experiments/SAIGNet_generated/model
 To evaluate an included checkpoint on a benchmark, place the full dataset at the paths specified in the matching YAML or update those paths. For paired evaluation, the low-light inputs and ground-truth images must share the same filename stems. For example, the LOLv1 configuration expects `datasets/lolv1/eval15/low/` and `datasets/lolv1/eval15/high/`.
 
 ```sh
-python test_from_dataset.py --opt Options/SAIGNet_lolv1.yml --weights model_output/LOLv1/psnr_24.42_81500.pth --dataset LOLv1 --no_lpips
+python test_from_dataset.py --opt Options/SAIGNet_lolv1.yml --weights model_output/LOLv1/psnr_24.42.pth --dataset LOLv1 --no_lpips
 ```
 
 The script reports PSNR and SSIM and saves enhanced images under `results/<dataset>/<configuration>/<checkpoint>/`. Omit `--no_lpips` after installing `lpips` to also calculate LPIPS. To evaluate a checkpoint from your own training run, pass that checkpoint and the YAML used to train it.
