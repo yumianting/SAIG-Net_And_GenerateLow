@@ -13,7 +13,7 @@ python benchmark_lolv1_speed.py \
   --gpu_id 0 \
   --image datasets/LOLv1/1.png \
   --opt Options/SAIGNet_lolv1.yml \
-  --weights model_output/LOLv1/psnr_24.42_81500.pth \
+  --weights model_output/LOLv1/psnr_24.42.pth \
   --width 128 --height 128 --warmup 1 --runs 5
 ```
 
@@ -22,7 +22,7 @@ This benchmark resizes the image to the requested dimensions and reports forward
 ```bash
 python visual.py \
   --opt Options/SAIGNet_lolv1.yml \
-  --weights model_output/LOLv1/psnr_24.42_81500.pth \
+  --weights model_output/LOLv1/psnr_24.42.pth \
   --input datasets/LOLv1/1.png \
   --save_dir results/visual_lolv1 \
   --device cuda --save_result
@@ -50,7 +50,7 @@ For LOLv1, the configuration expects `datasets/lolv1/eval15/low` and `datasets/l
 ```bash
 python test_from_dataset.py \
   --opt Options/SAIGNet_lolv1.yml \
-  --weights model_output/LOLv1/psnr_24.42_81500.pth \
+  --weights model_output/LOLv1/psnr_24.42.pth \
   --dataset LOLv1 \
 ```
 
