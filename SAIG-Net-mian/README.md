@@ -34,10 +34,10 @@ The enhanced image is saved as `results/visual_lolv1/1_result.png`. Set `--devic
 
 | Dataset | Configuration | Checkpoint |
 | --- | --- | --- |
-| LOLv1 | `Options/SAIGNet_lolv1.yml` | `model_output/LOLv1/psnr_24.42_81500.pth` |
-| LOLv2 Real | `Options/SAIGNet_lolv2_real.yml` | `model_output/LOLv2_real/psnr_23.38_20450.pth` |
-| LOLv2 Synthetic | `Options/SAIGNet_lolv2_syn.yml` | `model_output/LOLv2_synthetic/psnr_25.54_73000.pth` |
-| MineLOL | `Options/SAIGNet_melol_low_high.yml` | `model_output/MineLOL/psnr_25.94_56000.pth` |
+| LOLv1 | `Options/SAIGNet_lolv1.yml` | `model_output/LOLv1/psnr_24.42.pth` |
+| LOLv2 Real | `Options/SAIGNet_lolv2_real.yml` | `model_output/LOLv2_real/psnr_23.38.pth` |
+| LOLv2 Synthetic | `Options/SAIGNet_lolv2_syn.yml` | `model_output/LOLv2_synthetic/psnr_25.54.pth` |
+| MineLOL | `Options/SAIGNet_melol_low_high.yml` | `model_output/MineLOL/psnr_25.94.pth` |
 
 Always pass a matching configuration and checkpoint explicitly. Some scripts' built-in default checkpoint names include `best_`, but the files in this repository do not.
 
